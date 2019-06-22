@@ -6,10 +6,25 @@ declare var gapi: any
 const CLIENT_ID =
     "937378615319-bd1gsu5ltfh92kk7lbc9pej2pn3o44dd.apps.googleusercontent.com"
 const API_KEY = "AIzaSyDVbDOW8bCQcfTnpSdsWZ6XFxn2qg0rgP0"
-const SCOPES = "https://www.googleapis.com/auth/calendar.readonly"
+const SCOPES = "https://www.googleapis.com/auth/calendar.events"
 const DISCOVERY_DOCS = [
     "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
 ]
+
+function getEvent(title?: string, description?: string) {
+    return {
+        summary: title || "Go read",
+        description: description || "You should really be reading that article",
+        end: {
+            dateTime: new Date(Date.now() + 86400000 + 3600000).toISOString(),
+            timeZone: "gmt",
+        },
+        start: {
+            dateTime: new Date(Date.now() + 86400000).toISOString(),
+            timeZone: "gmt",
+        },
+    }
+}
 
 function initClient(
     updateSigninStatus: (is: boolean) => void,
@@ -43,7 +58,13 @@ function initClient(
 function App() {
     const [signedIn, setSignIn] = React.useState(false)
     const [error, setError] = React.useState<any>(null)
-    const [events, setEvents] = React.useState([])
+    const [status, setStatus] = React.useState("")
+
+    const { searchParams } = new URL(window.location.href)
+    const title = searchParams.get("title") || undefined
+    const text = searchParams.get("text") || undefined
+    const url = searchParams.get("url") || undefined
+    const body = searchParams.get("body") || undefined
 
     React.useEffect(() => {
         const gapiScript = document.createElement("script")
@@ -54,31 +75,35 @@ function App() {
         document.body.appendChild(gapiScript)
     }, [])
 
-    React.useEffect(() => {
-        if (signedIn) {
-            gapi.client.calendar.events
-                .list({
-                    calendarId: "primary",
-                    timeMin: new Date().toISOString(),
-                    showDeleted: false,
-                    singleEvents: true,
-                    maxResults: 10,
-                    orderBy: "startTime",
-                })
-                .then(function(response: any) {
-                    var events = response.result.items
-                    setEvents(events)
-                })
-        }
-    }, [signedIn])
-
     return (
         <div>
+            {status && <div>{status}</div>}
             {error && <div>{error}</div>}
 
-            {events.map((event: any) => (
-                <p>{event.summary}</p>
-            ))}
+            <div>
+                <p>title: {title}</p>
+                <p>url: {url}</p>
+                <p>text: {text}</p>
+                <p>body: {body}</p>
+            </div>
+
+            {signedIn && title && (
+                <button
+                    onClick={() => {
+                        gapi.client.calendar.events
+                            .insert({
+                                calendarId: "primary",
+                                resource: getEvent(title, text),
+                            })
+                            .then((result: any) =>
+                                setStatus(JSON.stringify(result)),
+                            )
+                            .catch((err: any) => setStatus(JSON.stringify(err)))
+                    }}
+                >
+                    Create event
+                </button>
+            )}
 
             {!signedIn ? (
                 <button onClick={() => gapi.auth2.getAuthInstance().signIn()}>
