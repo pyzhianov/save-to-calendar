@@ -82,7 +82,7 @@ function App() {
 
             {!signedIn ? (
                 <button onClick={() => gapi.auth2.getAuthInstance().signIn()}>
-                    Authorize
+                    Sign in
                 </button>
             ) : (
                 <button onClick={() => gapi.auth2.getAuthInstance().signOut()}>
