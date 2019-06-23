@@ -56,11 +56,9 @@ export function insertEvent(title: string, url: string, start: Date) {
             description: url,
             start: {
                 dateTime: formatDate(start, utcWithTimezone),
-                timeZone: "gmt",
             },
             end: {
                 dateTime: formatDate(addHours(start, 1), utcWithTimezone),
-                timeZone: "gmt",
             },
         },
     })

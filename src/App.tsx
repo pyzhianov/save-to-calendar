@@ -56,8 +56,8 @@ function App() {
                 )}
 
                 {signedIn && (
-                    <label>
-                        Preferred time
+                    <label className="level">
+                        <p>Preferred time</p>
                         <input
                             type="number"
                             min={0}
@@ -73,7 +73,7 @@ function App() {
                 {signedIn && title && url && (
                     <>
                         <button
-                            className="button is-primary"
+                            className="level button is-primary"
                             onClick={async () => {
                                 await insertEvent(
                                     title,
@@ -83,12 +83,13 @@ function App() {
                                 setSuccessMessage(
                                     "Reading is good for digestion!",
                                 )
+                                window.history.pushState(null, "", "/")
                             }}
                         >
                             At lunch
                         </button>
                         <button
-                            className="button is-primary"
+                            className="level button is-primary"
                             onClick={async () => {
                                 await insertEvent(
                                     title,
@@ -96,12 +97,13 @@ function App() {
                                     setHours(startOfTomorrow(), preferredTime),
                                 )
                                 setSuccessMessage("Tomorrow is the day!")
+                                window.history.pushState(null, "", "/")
                             }}
                         >
                             Tomorrow
                         </button>
                         <button
-                            className="button is-primary"
+                            className="level button is-primary"
                             onClick={async () => {
                                 await insertEvent(
                                     title,
@@ -114,6 +116,7 @@ function App() {
                                 setSuccessMessage(
                                     "Remember to go outside as well!",
                                 )
+                                window.history.pushState(null, "", "/")
                             }}
                         >
                             Weekends
@@ -122,11 +125,14 @@ function App() {
                 )}
 
                 {!signedIn ? (
-                    <button className="button is-primary" onClick={signIn}>
+                    <button
+                        className="level button is-primary"
+                        onClick={signIn}
+                    >
                         Sign in
                     </button>
                 ) : (
-                    <button className="button" onClick={signOut}>
+                    <button className="level button" onClick={signOut}>
                         Sign Out
                     </button>
                 )}
