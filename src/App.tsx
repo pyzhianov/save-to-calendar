@@ -1,120 +1,197 @@
 import React from "react"
-import "./App.css"
+import { initClient } from "./gapi"
+import get from "lodash.get"
+import bulmaCalendar from "bulma-calendar/dist/js/bulma-calendar.min.js"
+import "bulma/css/bulma.css"
+import "bulma-calendar/dist/css/bulma-calendar.min.css"
+import "normalize.css"
 
 declare var gapi: any
 
-const CLIENT_ID =
-    "937378615319-bd1gsu5ltfh92kk7lbc9pej2pn3o44dd.apps.googleusercontent.com"
-const API_KEY = "AIzaSyDVbDOW8bCQcfTnpSdsWZ6XFxn2qg0rgP0"
-const SCOPES = "https://www.googleapis.com/auth/calendar.events"
-const DISCOVERY_DOCS = [
-    "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-]
+function getEvent(
+    start: string | null,
+    end: string | null,
+    title?: string,
+    url?: string,
+) {
+    if (!title || !url) {
+        throw new Error("No title or url provided")
+    }
 
-function getEvent(title?: string, description?: string) {
+    if (!start || !end) {
+        throw new Error("No start or end provided")
+    }
+
     return {
-        summary: title || "Go read",
-        description: description || "You should really be reading that article",
-        end: {
-            dateTime: new Date(Date.now() + 86400000 + 3600000).toISOString(),
+        summary: title,
+        description: url,
+        start: {
+            dateTime: start,
             timeZone: "gmt",
         },
-        start: {
-            dateTime: new Date(Date.now() + 86400000).toISOString(),
+        end: {
+            dateTime: end,
             timeZone: "gmt",
         },
     }
 }
 
-function initClient(
-    updateSigninStatus: (is: boolean) => void,
-    displayError: Function,
-) {
-    gapi.client
-        .init({
-            apiKey: API_KEY,
-            clientId: CLIENT_ID,
-            discoveryDocs: DISCOVERY_DOCS,
-            scope: SCOPES,
-        })
-        .then(
-            function() {
-                // Listen for sign-in state changes.
-                gapi.auth2
-                    .getAuthInstance()
-                    .isSignedIn.listen(updateSigninStatus)
-
-                // Handle the initial sign-in state.
-                updateSigninStatus(
-                    gapi.auth2.getAuthInstance().isSignedIn.get(),
-                )
-            },
-            function(error: Error) {
-                displayError(JSON.stringify(error, null, 2))
-            },
-        )
-}
-
-function App() {
-    const [signedIn, setSignIn] = React.useState(false)
-    const [error, setError] = React.useState<any>(null)
-    const [status, setStatus] = React.useState("")
-
+function getValues() {
     const { searchParams } = new URL(window.location.href)
     const title = searchParams.get("title") || undefined
     const text = searchParams.get("text") || undefined
     const url = searchParams.get("url") || undefined
     const body = searchParams.get("body") || undefined
 
+    return {
+        title,
+        url: url || text || body,
+    }
+}
+
+function App() {
+    const [signedIn, setSignIn] = React.useState(false)
+    const [errorMessage, setErrorMessage] = React.useState("")
+    const [successMessage, setSuccessMessage] = React.useState("")
+
+    const [startTime, setStartTime] = React.useState<string | null>(null)
+    const [endTime, setEndTime] = React.useState<string | null>(null)
+
+    const { title, url } = getValues()
+
+    const endInputRef = React.useRef(null)
+    const startInputRef = React.useRef(null)
+    const startCal = get(startInputRef, "current.bulmaCalendar")
+    const endCal = get(endInputRef, "current.bulmaCalendar")
+
+    React.useEffect(() => {
+        const cals = bulmaCalendar.attach('[type="datetime"]')
+        console.log(cals)
+    }, [])
+
+    React.useEffect(() => {
+        if (startCal) {
+            startCal.on("select", ({ timeStamp }: any) => {
+                setStartTime(new Date(timeStamp).toISOString())
+            })
+        }
+    }, [startCal])
+
+    React.useEffect(() => {
+        if (endCal) {
+            endCal.on("select", ({ timeStamp }: any) => {
+                setEndTime(new Date(timeStamp).toISOString())
+            })
+        }
+    }, [endCal])
+
     React.useEffect(() => {
         const gapiScript = document.createElement("script")
         gapiScript.src = "https://apis.google.com/js/api.js?onload=onGapiLoad"
         ;(window as any).onGapiLoad = function onGapiLoad() {
-            gapi.load("client:auth2", () => initClient(setSignIn, setError))
+            gapi.load("client:auth2", () =>
+                initClient(setSignIn, setErrorMessage),
+            )
         }
         document.body.appendChild(gapiScript)
     }, [])
 
     return (
-        <div>
-            {status && <div>{status}</div>}
-            {error && <div>{error}</div>}
+        <section className="section">
+            <div className="container">
+                <h1>New event</h1>
 
-            <div>
-                <p>title: {title}</p>
-                <p>url: {url}</p>
-                <p>text: {text}</p>
-                <p>body: {body}</p>
+                {errorMessage && (
+                    <div className="notification is-warning">
+                        <button
+                            className="delete"
+                            onClick={() => setErrorMessage("")}
+                        />
+                        {errorMessage}
+                    </div>
+                )}
+
+                {successMessage && (
+                    <div className="notification is-success">
+                        <button
+                            className="delete"
+                            onClick={() => setSuccessMessage("")}
+                        />
+                        {successMessage}
+                    </div>
+                )}
+
+                {!successMessage && !errorMessage && (
+                    <div className="box">
+                        <p>
+                            <strong>{title}</strong>
+                        </p>
+                        <a href={url} target="_blank" rel="noopener noreferrer">
+                            {url}
+                        </a>
+                    </div>
+                )}
+
+                <div>
+                    <input
+                        ref={startInputRef}
+                        type="datetime"
+                        value={startTime || ""}
+                    />
+                </div>
+
+                <div>
+                    <input
+                        ref={endInputRef}
+                        type="datetime"
+                        value={endTime || ""}
+                    />
+                </div>
+
+                {signedIn && title && (
+                    <button
+                        className="button is-primary"
+                        onClick={async () => {
+                            try {
+                                await gapi.client.calendar.events.insert({
+                                    calendarId: "primary",
+                                    resource: getEvent(
+                                        startTime,
+                                        endTime,
+                                        title,
+                                        url,
+                                    ),
+                                })
+                                setSuccessMessage("Tada!")
+                            } catch (e) {
+                                console.error(e)
+                                if (e instanceof Error) {
+                                    setErrorMessage(e.message)
+                                }
+                            }
+                        }}
+                    >
+                        Create event
+                    </button>
+                )}
+
+                {!signedIn ? (
+                    <button
+                        className="button is-primary"
+                        onClick={() => gapi.auth2.getAuthInstance().signIn()}
+                    >
+                        Sign in
+                    </button>
+                ) : (
+                    <button
+                        className="button"
+                        onClick={() => gapi.auth2.getAuthInstance().signOut()}
+                    >
+                        Sign Out
+                    </button>
+                )}
             </div>
-
-            {signedIn && title && (
-                <button
-                    onClick={() => {
-                        gapi.client.calendar.events
-                            .insert({
-                                calendarId: "primary",
-                                resource: getEvent(title, text),
-                            })
-                            .then((result: any) =>
-                                setStatus(JSON.stringify(result)),
-                            )
-                            .catch((err: any) => setStatus(JSON.stringify(err)))
-                    }}
-                >
-                    Create event
-                </button>
-            )}
-
-            {!signedIn ? (
-                <button onClick={() => gapi.auth2.getAuthInstance().signIn()}>
-                    Sign in
-                </button>
-            ) : (
-                <button onClick={() => gapi.auth2.getAuthInstance().signOut()}>
-                    Sign Out
-                </button>
-            )}
-        </div>
+        </section>
     )
 }
 
