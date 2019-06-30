@@ -18,7 +18,7 @@ const DISCOVERY_DOCS = [
 
 const utcWithTimezone = "YYYY-MM-DDTHH:mm:ss.SSSZ"
 
-export function initGapiClient(setSignInStatus: (isLoggedIn: boolean) => void) {
+export function initGapiClient(setLoginStatus: (loggedIn: boolean) => void) {
     return () => {
         const gapiScript = document.createElement("script")
         gapiScript.src = "https://apis.google.com/js/api.js?onload=onGapiLoad"
@@ -31,8 +31,11 @@ export function initGapiClient(setSignInStatus: (isLoggedIn: boolean) => void) {
                     discoveryDocs: DISCOVERY_DOCS,
                     scope: SCOPES,
                 })
-                gapi.auth2.getAuthInstance().isSignedIn.listen(setSignInStatus)
-                setSignInStatus(gapi.auth2.getAuthInstance().isSignedIn.get())
+
+                gapi.auth2.getAuthInstance().isSignedIn.listen(setLoginStatus)
+
+                const isLoggedIn = gapi.auth2.getAuthInstance().isSignedIn.get()
+                setLoginStatus(isLoggedIn)
             })
         }
 
