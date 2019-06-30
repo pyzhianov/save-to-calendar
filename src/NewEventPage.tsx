@@ -43,22 +43,18 @@ export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
     }, [successMessage])
 
     return (
-        <section className="section">
-            <div className="container">
-                <h1>New event</h1>
-
+        <section className="hero is-fullheight">
+            <div className="hero-body container">
                 {errorMessage && (
                     <div className="notification is-warning">
                         {errorMessage}
                     </div>
                 )}
-
                 {successMessage && (
                     <div className="notification is-success">
                         {successMessage}
                     </div>
                 )}
-
                 {!successMessage && !errorMessage && (
                     <div className="box">
                         <p>
@@ -69,25 +65,26 @@ export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
                         </a>
                     </div>
                 )}
+            </div>
 
-                <div>
-                    <p>Preferred time</p>
-                    <label className="level">
-                        <input
-                            type="number"
-                            min={0}
-                            max={23}
-                            value={preferredHour}
-                            onChange={e => {
-                                setPreferredTime(parseInt(e.target.value))
-                            }}
-                        />
-                    </label>
-                </div>
-
+            <div className="hero-buttons container">
+                <label className="container">
+                    Time:
+                    <input
+                        className="input"
+                        type="number"
+                        min={0}
+                        max={23}
+                        value={preferredHour}
+                        onChange={e => {
+                            setPreferredTime(parseInt(e.target.value))
+                        }}
+                    />
+                </label>
                 {options.map(o => (
                     <button
-                        className="level button is-primary"
+                        key={o.text}
+                        className="button is-info"
                         onClick={async () => {
                             try {
                                 await insertEvent(

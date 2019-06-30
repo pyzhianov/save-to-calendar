@@ -7,17 +7,20 @@ export interface LoginPageProps {
 
 export function LoginPage({ isLoggedIn }: LoginPageProps) {
     return (
-        <section className="hero is-fullheight is-info">
-            <div className="hero-body">
-                <h1 className="heading">Step 1</h1>
+        <section className="hero is-fullheight">
+            <div className="hero-body container">
+                <p>
+                    Log in using your <strong>Google Calendar</strong> account.
+                    We only need it to add events on your behalf.
+                </p>
             </div>
-            <div className="hero-foot">
+            <div className="hero-body container">
                 <button
+                    className="button is-big is-primary"
                     disabled={isLoggedIn === null}
-                    className="button"
                     onClick={signIn}
                 >
-                    Log In
+                    Log in with Google Calendar
                 </button>
             </div>
         </section>

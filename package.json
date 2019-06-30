@@ -6,7 +6,6 @@
         "bulma": "^0.7.5",
         "date-fns": "^1.30.1",
         "lodash.get": "^4.4.2",
-        "normalize.css": "^8.0.1",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
         "react-scripts": "3.0.1"
@@ -17,6 +16,9 @@
         "test": "react-scripts test",
         "deploy": "firebase deploy",
         "go": "yarn build && yarn deploy",
+        "storybook": "start-storybook -p 9009 -s public",
+        "build-storybook": "build-storybook -s public",
+        "sb": "yarn storybook",
         "eject": "react-scripts eject"
     },
     "eslintConfig": {
@@ -35,11 +37,15 @@
         ]
     },
     "devDependencies": {
+        "@storybook/addon-actions": "^5.1.9",
+        "@storybook/addon-links": "^5.1.9",
+        "@storybook/react": "^5.1.9",
         "@types/gapi": "^0.0.36",
         "@types/gapi.auth2": "^0.0.50",
         "@types/lodash.get": "^4.4.6",
         "@types/react": "^16.8.22",
         "@types/react-dom": "^16.8.4",
+        "@types/storybook__react": "^4.0.2",
         "firebase-tools": "^7.0.1",
         "typescript": "^3.5.2"
     }

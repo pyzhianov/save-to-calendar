@@ -1,6 +1,6 @@
 {
-    "short_name": "RLC",
-    "name": "Read Later Calendar",
+    "short_name": "Save to Calendar",
+    "name": "Save to Calendar",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

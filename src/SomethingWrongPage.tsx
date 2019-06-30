@@ -1,30 +1,26 @@
 import React from "react"
 
 export function SomethingWrongPage() {
-    const [wasReported, reportError] = React.useState<boolean>(false)
-
     return (
-        <section className="hero is-fullheight is-warn">
-            <div className="hero-body">
-                {wasReported ? (
-                    <p>Thanks for the report. We are on it!</p>
-                ) : (
-                    <div>
-                        <p>Looks like something just went wrong</p>
-                    </div>
-                )}
+        <section className="hero is-fullheight is-warning is-bold">
+            <div className="hero-body container">
+                <h1 className="title has-text-centered">
+                    Dude! You really screwd this ting up!
+                </h1>
             </div>
-            <div className="hero-foot">
-                <button
-                    disabled={wasReported}
-                    onClick={() =>
-                        setTimeout(() => {
-                            reportError(true)
-                        }, Math.random() * 2)
-                    }
-                >
-                    Report the event
-                </button>
+            <div className="hero-body container">
+                <iframe
+                    title="fail-giphy"
+                    src="https://giphy.com/embed/StT6DPSOmBIKQ"
+                    width="480"
+                    height="258"
+                    frameBorder="0"
+                    className="giphy-embed"
+                    allowFullScreen
+                />
+            </div>
+            <div className="hero-body container ">
+                <button className="button is-large ">When will I learn</button>
             </div>
         </section>
     )

@@ -5,8 +5,6 @@ import { SomethingWrongPage } from "./SomethingWrongPage"
 import { TipPage } from "./TipPage"
 import { InstallPage, InstallEvent } from "./InstallPage"
 import { LoginPage } from "./LogInPage"
-import "bulma/css/bulma.css"
-import "normalize.css"
 
 const WAS_INSTALLED = matchMedia("(display-mode: standalone)").matches
 

@@ -14,13 +14,16 @@ export function InstallPage(props: InstallPageProps) {
     const { installEvent, onInstall } = props
 
     return (
-        <section className="hero is-fullheight is-primary is-bold">
-            <div className="hero-body">
-                <h1 className="heading">Step 2</h1>
-                <p>Add the application to your home screen</p>
+        <section className="hero is-fullheight">
+            <div className="hero-body container">
+                <p>
+                    Now add <strong>Save to Calendar</strong> to your home
+                    screen so you can access it from other apps.
+                </p>
             </div>
-            <div className="hero-foot">
+            <div className="hero-body container">
                 <button
+                    className="button is-big is-primary"
                     disabled={!installEvent}
                     onClick={() => {
                         if (!installEvent) return
