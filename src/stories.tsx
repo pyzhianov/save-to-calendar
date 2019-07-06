@@ -6,6 +6,7 @@ import { LoginPage } from "./LogInPage"
 import { NewEventPage } from "./NewEventPage"
 import { SomethingWrongPage } from "./SomethingWrongPage"
 import { TipPage } from "./TipPage"
+import { UnablePage } from "./UnablePage"
 import "bulma/css/bulma.css"
 
 const event: InstallEvent = {
@@ -19,6 +20,7 @@ const event: InstallEvent = {
 storiesOf("LoginPage", module)
     .add("logged out", () => <LoginPage isLoggedIn={false} />)
     .add("logged in", () => <LoginPage isLoggedIn={true} />)
+    .add("not initialized", () => <LoginPage isLoggedIn={null} />)
 
 storiesOf("InstallPage", module).add("with event", () => (
     <InstallPage onInstall={action("install event")} installEvent={event} />
@@ -29,6 +31,8 @@ storiesOf("TipPage", module).add("with event", () => <TipPage />)
 storiesOf("SomethingWrongPage", module).add("vanilla", () => (
     <SomethingWrongPage />
 ))
+
+storiesOf("UnablePage", module).add("vanilla", () => <UnablePage />)
 
 storiesOf("NewEventPage", module).add("logged out", () => (
     <NewEventPage

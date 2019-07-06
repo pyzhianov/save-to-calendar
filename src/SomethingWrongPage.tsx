@@ -1,11 +1,16 @@
 import React from "react"
 
 export function SomethingWrongPage() {
+    const backHome = React.useCallback(
+        () => window.history.pushState(null, "", "/"),
+        [],
+    )
+
     return (
         <section className="hero is-fullheight is-warning is-bold">
             <div className="hero-body container">
                 <h1 className="title has-text-centered">
-                    Dude! You really screwd this ting up!
+                    Wow! You really screwd this ting up!
                 </h1>
             </div>
             <div className="hero-body container">
@@ -20,7 +25,9 @@ export function SomethingWrongPage() {
                 />
             </div>
             <div className="hero-body container ">
-                <button className="button is-large ">When will I learn</button>
+                <button className="button is-large" onClick={backHome}>
+                    When will I learn
+                </button>
             </div>
         </section>
     )
