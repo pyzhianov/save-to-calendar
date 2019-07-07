@@ -27,9 +27,18 @@ const Text = {
         en: "Now start using it!",
         ru: "Получилось! 🎉",
     }),
+    CHROME: t({
+        en: "Get Google Chrome",
+        ru: "Установить Google Chrome",
+    }),
+    CHROME_TIP: t({
+        en:
+            "(opening this site in Google Chrome might help if you are on Android)",
+        ru: "(еще можно попробовать открыть этот сайт в Google Chrome)",
+    }),
     ALREADY: t({
         en:
-            "Sorry, we don't support your device at the moment. Or maybe you already have <strong>Save to Calendar</strong> installed, check your apps menu.",
+            "Looks like we don't support your device at the moment. Or maybe you already have <strong>Save to Calendar</strong> installed, check your apps menu.",
         ru:
             "Кажется, мы пока не поддерживаем ваше устройство, 😭 но возможно, вы уже установили <strong>Save to Calendar</strong> - поищите среди других приложений. 🤷‍",
     }),
@@ -62,7 +71,7 @@ export function InstallPage({ wasInstalled, installEvent }: InstallPageProps) {
                         )}
                     </div>
 
-                    {!wasInstalled && (
+                    {!wasInstalled && installEvent && (
                         <div className="field">
                             <button
                                 className="button is-big is-primary"
@@ -74,6 +83,26 @@ export function InstallPage({ wasInstalled, installEvent }: InstallPageProps) {
                                 {Text.GET}
                             </button>
                         </div>
+                    )}
+
+                    {!wasInstalled && !installEvent && (
+                        <>
+                            <div className="field">
+                                <p className="has-text-grey">
+                                    {Text.CHROME_TIP}
+                                </p>
+                            </div>
+                            <div className="field">
+                                <a
+                                    href="https://play.google.com/store/apps/details?id=com.android.chrome"
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    className="button is-big"
+                                >
+                                    {Text.CHROME}
+                                </a>
+                            </div>
+                        </>
                     )}
                 </div>
             </div>
