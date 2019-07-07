@@ -52,6 +52,8 @@ export function signOut() {
 }
 
 export function insertEvent(title: string, url: string, start: Date) {
+    console.log(title, url, start)
+
     return gapi.client.calendar.events.insert({
         calendarId: "primary",
         resource: {

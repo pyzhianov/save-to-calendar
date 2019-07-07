@@ -4,27 +4,22 @@ import { NewEventPage } from "./NewEventPage"
 import { TipPage } from "./TipPage"
 import { InstallPage, InstallEvent } from "./InstallPage"
 import { LoginPage } from "./LogInPage"
-
-const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+import { urlRegex } from "./utils"
 
 function getTitleAndMore() {
     const { searchParams } = new URL(window.location.href)
     const title = searchParams.get("title") || ""
-    const text = searchParams.get("text") || ""
-    const url = searchParams.get("url") || ""
+    const more = searchParams.get("url") || searchParams.get("text") || ""
 
-    const urlInText = text && text.match(urlRegex)
+    const urlInMore = more && more.match(urlRegex)
 
-    if (!title && text && urlInText && urlInText.length > 0) {
+    if (more && urlInMore && urlInMore.length > 0) {
         return {
-            title: text.replace(urlInText[0], "").trim(),
-            more: urlInText[0],
+            title: title || more.replace(urlInMore[0], "").trim(),
+            more: urlInMore[0],
         }
     } else {
-        return {
-            title: title || "",
-            more: url || text || "",
-        }
+        return { title, more }
     }
 }
 

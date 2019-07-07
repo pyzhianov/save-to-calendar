@@ -1,4 +1,16 @@
 import React from "react"
+import { urlRegex } from "./utils"
+import {
+    startOfTomorrow,
+    addWeeks,
+    addMonths,
+    addYears,
+    startOfToday,
+    setHours,
+    getHours,
+    parse,
+    addDays,
+} from "date-fns"
 import { insertEvent } from "./gapi"
 
 export interface NewEventPageProps {
@@ -6,28 +18,37 @@ export interface NewEventPageProps {
     more: string | null
 }
 
+const HOURS = Array(24)
+    .fill(0)
+    .map((_, i) => i)
+
+const DATES = [
+    { text: "Today", value: () => startOfToday() },
+    { text: "Tomorrow", value: () => startOfTomorrow() },
+    { text: "In two days", value: () => addDays(startOfToday(), 2) },
+    { text: "In a week", value: () => addWeeks(startOfToday(), 1) },
+    { text: "In a month", value: () => addMonths(startOfToday(), 1) },
+    { text: "In a year", value: () => addYears(startOfToday(), 1) },
+]
+
 export function NewEventPage(props: NewEventPageProps) {
     const [userTitle, setTitle] = React.useState("")
     const [errorMessage, setErrorMessage] = React.useState("")
     const [successMessage, setSuccessMessage] = React.useState("")
-    const [preferredHour, setPreferredTime] = React.useState(8)
+    const [preferredHour, setPreferredHour] = React.useState(
+        Math.min(23, getHours(new Date()) + 2),
+    )
+    const [preferredDate, setPreferredDay] = React.useState(startOfToday())
 
     const title = props.title || userTitle
     const more = props.more || ""
-    const moreIsUrl = more && more.match(/^https?:\/\//)
-
-    React.useEffect(() => {
-        if (successMessage) {
-            setTimeout(() => setSuccessMessage(""), 2000)
-        }
-    }, [successMessage])
+    const moreIsUrl = more && more.match(urlRegex)
 
     const createEvent = () =>
-        insertEvent(title, more, new Date())
+        insertEvent(title, more, setHours(preferredDate, preferredHour))
             .then(() => {
-                setSuccessMessage("Event created!")
+                setSuccessMessage("Saved to Calendar!")
                 window.history.replaceState(null, "", "/")
-                window.history.go()
             })
             .catch(() => {
                 setErrorMessage("Something went wrong :(")
@@ -85,12 +106,21 @@ export function NewEventPage(props: NewEventPageProps) {
                             Select day:
                         </label>
                         <div className="select">
-                            <select name="Day" id="day-select">
-                                <option value="">Tomorrow</option>
-                                <option value="">In two days</option>
-                                <option value="">In a week</option>
-                                <option value="">In a month</option>
-                                <option value="">In a year</option>
+                            <select
+                                name="Day"
+                                id="day-select"
+                                onChange={e =>
+                                    setPreferredDay(parse(e.target.value))
+                                }
+                            >
+                                {DATES.map(({ text, value }) => (
+                                    <option
+                                        key={text}
+                                        value={value().toISOString()}
+                                    >
+                                        {text}
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     </div>
@@ -99,17 +129,22 @@ export function NewEventPage(props: NewEventPageProps) {
                         <label htmlFor="time-input" className="label">
                             Select time
                         </label>
-                        <input
-                            id="time-input"
-                            className="input"
-                            type="number"
-                            min={0}
-                            max={23}
-                            value={preferredHour}
-                            onChange={e => {
-                                setPreferredTime(parseInt(e.target.value))
-                            }}
-                        />
+                        <div className="select">
+                            <select
+                                id="time-input"
+                                value={preferredHour}
+                                onChange={e =>
+                                    setPreferredHour(parseInt(e.target.value))
+                                }
+                            >
+                                {HOURS.map(h => (
+                                    <option
+                                        key={h}
+                                        value={h}
+                                    >{`${h}:00`}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
