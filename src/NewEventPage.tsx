@@ -4,7 +4,7 @@ import { getDay, getMonth, addMonths, getDate } from "date-fns"
 
 export interface NewEventPageProps {
     title: string
-    url?: string
+    url: string | null
 }
 
 export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
@@ -37,13 +37,15 @@ export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
                             <p>
                                 <strong>{title}</strong>
                             </p>
-                            <a
-                                href={url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {url}
-                            </a>
+                            {url && (
+                                <a
+                                    href={url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {url}
+                                </a>
+                            )}
                         </div>
                     )}
                 </section>
@@ -90,12 +92,17 @@ export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
                                     try {
                                         await insertEvent(
                                             title,
-                                            url,
+                                            url || "",
                                             new Date(),
                                             // o.getStartTime(preferredHour, 14),
                                         )
                                         setSuccessMessage("Done!")
-                                        window.history.pushState(null, "", "/")
+                                        window.history.replaceState(
+                                            null,
+                                            "",
+                                            "/",
+                                        )
+                                        window.history.go()
                                     } catch (e) {
                                         setErrorMessage("Something went wrong")
                                     }

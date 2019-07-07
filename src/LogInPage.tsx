@@ -1,23 +1,14 @@
 import React from "react"
 import { signIn } from "./gapi"
-import clsx from "clsx"
 
-export interface LoginPageProps {
-    isLoggedIn: boolean | null
-}
-
-export function LoginPage({ isLoggedIn }: LoginPageProps) {
+export function LoginPage() {
     return (
         <section className="hero is-fullheight">
             <div className="hero-body">
                 <div className="container has-text-centered">
                     <div className="field">
                         <button
-                            className={clsx(
-                                "button is-big is-primary",
-                                isLoggedIn === null && "is-loading",
-                            )}
-                            disabled={isLoggedIn === true}
+                            className="button is-big is-primary"
                             onClick={signIn}
                         >
                             Log in with Google Calendar

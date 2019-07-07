@@ -1,42 +1,41 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
-import { InstallPage, InstallEvent } from "./InstallPage"
 import { action } from "@storybook/addon-actions"
+import { InstallPage, InstallEvent } from "./InstallPage"
 import { LoginPage } from "./LogInPage"
 import { NewEventPage } from "./NewEventPage"
 import { SomethingWrongPage } from "./SomethingWrongPage"
 import { TipPage } from "./TipPage"
-import { UnablePage } from "./UnablePage"
 import "bulma/css/bulma.css"
 
-const event: InstallEvent = {
-    prompt: action("prompt install"),
-    userChoice: Promise.resolve({
-        outcome: "accepted",
-    }),
-    ...new Event("beforeinstallprompt"),
+const installEvent: InstallEvent = {
+    ...new Event("appinstalled"),
+    prompt: action("open install propmpt"),
+    userChoice: Promise.resolve({ outcome: "accepted" }),
 }
 
-storiesOf("LoginPage", module)
-    .add("logged out", () => <LoginPage isLoggedIn={false} />)
-    .add("logged in", () => <LoginPage isLoggedIn={true} />)
-    .add("not initialized", () => <LoginPage isLoggedIn={null} />)
+storiesOf("InstallPage", module)
+    .add("no event, wasn't installed", () => (
+        <InstallPage wasInstalled={false} installEvent={null} />
+    ))
+    .add("has event", () => (
+        <InstallPage wasInstalled={false} installEvent={installEvent} />
+    ))
+    .add("was installed", () => (
+        <InstallPage wasInstalled={true} installEvent={installEvent} />
+    ))
 
-storiesOf("InstallPage", module).add("with event", () => (
-    <InstallPage onInstall={action("install event")} installEvent={event} />
-))
-
-storiesOf("TipPage", module).add("with event", () => <TipPage />)
-
-storiesOf("SomethingWrongPage", module).add("vanilla", () => (
-    <SomethingWrongPage />
-))
-
-storiesOf("UnablePage", module).add("vanilla", () => <UnablePage />)
-
-storiesOf("NewEventPage", module).add("logged out", () => (
+storiesOf("NewEventPage", module).add("example", () => (
     <NewEventPage
         title="How Regular Americans Can Help Reunite Migrant Families"
         url="https://medium.com/new-york-times-opinion/how-regular-americans-can-help-reunite-migrant-families-bc72e1c155e5"
     />
 ))
+
+storiesOf("SomethingWrongPage", module).add("empty content", () => (
+    <SomethingWrongPage info={{ text: "", url: "", title: "" }} />
+))
+
+storiesOf("misc pages", module)
+    .add("LoginPage", () => <LoginPage />)
+    .add("TipPage", () => <TipPage />)
