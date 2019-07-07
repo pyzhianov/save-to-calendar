@@ -5,11 +5,6 @@ export interface SomethingWrongPageProps {
 }
 
 export function SomethingWrongPage(props: SomethingWrongPageProps) {
-    const backHome = React.useCallback(
-        () => window.history.pushState(null, "", "/"),
-        [],
-    )
-
     return (
         <section className="hero is-fullheight is-warning is-bold">
             <div className="hero-body">
@@ -41,7 +36,13 @@ export function SomethingWrongPage(props: SomethingWrongPageProps) {
             <div className="hero-foot">
                 <div className="container has-text-centered">
                     <div className="section">
-                        <button className="button is-big" onClick={backHome}>
+                        <button
+                            className="button is-big"
+                            onClick={() => {
+                                window.history.pushState(null, "", "/")
+                                window.history.go()
+                            }}
+                        >
                             When will I learn
                         </button>
                     </div>

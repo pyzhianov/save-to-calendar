@@ -1,10 +1,32 @@
 import React from "react"
 import { initGapiClient } from "./gapi"
 import { NewEventPage } from "./NewEventPage"
-import { SomethingWrongPage } from "./SomethingWrongPage"
 import { TipPage } from "./TipPage"
 import { InstallPage, InstallEvent } from "./InstallPage"
 import { LoginPage } from "./LogInPage"
+
+const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+
+function getTitleAndMore() {
+    const { searchParams } = new URL(window.location.href)
+    const title = searchParams.get("title") || ""
+    const text = searchParams.get("text") || ""
+    const url = searchParams.get("url") || ""
+
+    const urlInText = text && text.match(urlRegex)
+
+    if (!title && text && urlInText && urlInText.length > 0) {
+        return {
+            title: text.replace(urlInText[0], "").trim(),
+            more: urlInText[0],
+        }
+    } else {
+        return {
+            title: title || "",
+            more: url || text || "",
+        }
+    }
+}
 
 function App() {
     const isAppMode = matchMedia("(display-mode: standalone)").matches
@@ -13,10 +35,6 @@ function App() {
     const [installEvent, setInstallEvent] = React.useState<InstallEvent | null>(
         null,
     )
-
-    React.useEffect(() => {
-        alert("Version 4")
-    }, [])
 
     React.useEffect(() => {
         window.addEventListener("beforeinstallprompt", e => {
@@ -30,11 +48,7 @@ function App() {
 
     React.useEffect(initGapiClient(setIsLoggedIn), [])
 
-    const { searchParams } = new URL(window.location.href)
-    const isSharing = searchParams.get("isSharing")
-    const title = searchParams.get("title")
-    const text = searchParams.get("text")
-    const url = searchParams.get("url")
+    const { title, more } = getTitleAndMore()
 
     if (!isAppMode) {
         return (
@@ -47,10 +61,8 @@ function App() {
         return null
     } else if (isLoggedIn === false) {
         return <LoginPage />
-    } else if (isSharing && title) {
-        return <NewEventPage title={title} url={url || text} />
-    } else if (isSharing && !title && !text && !url) {
-        return <SomethingWrongPage info={{ title, url, text }} />
+    } else if (title || more) {
+        return <NewEventPage title={title} more={more} />
     } else {
         return <TipPage />
     }

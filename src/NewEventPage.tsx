@@ -1,16 +1,20 @@
 import React from "react"
 import { insertEvent } from "./gapi"
-import { getDay, getMonth, addMonths, getDate } from "date-fns"
 
 export interface NewEventPageProps {
-    title: string
-    url: string | null
+    title: string | null
+    more: string | null
 }
 
-export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
+export function NewEventPage(props: NewEventPageProps) {
+    const [userTitle, setTitle] = React.useState("")
     const [errorMessage, setErrorMessage] = React.useState("")
     const [successMessage, setSuccessMessage] = React.useState("")
     const [preferredHour, setPreferredTime] = React.useState(8)
+
+    const title = props.title || userTitle
+    const more = props.more || ""
+    const moreIsUrl = more && more.match(/^https?:\/\//)
 
     React.useEffect(() => {
         if (successMessage) {
@@ -18,59 +22,82 @@ export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
         }
     }, [successMessage])
 
+    const createEvent = () =>
+        insertEvent(title, more, new Date())
+            .then(() => {
+                setSuccessMessage("Event created!")
+                window.history.replaceState(null, "", "/")
+                window.history.go()
+            })
+            .catch(() => {
+                setErrorMessage("Something went wrong :(")
+            })
+
+    const titleElement = props.title ? (
+        <p>
+            <strong>{props.title}</strong>
+        </p>
+    ) : (
+        <input
+            className="input"
+            value={userTitle}
+            placeholder="Enter the title"
+            onChange={e => setTitle(e.target.value)}
+        />
+    )
+
+    const moreElement =
+        more && moreIsUrl ? (
+            <a href={more} target="_blank" rel="noopener noreferrer">
+                {more}
+            </a>
+        ) : more ? (
+            <p>{more}</p>
+        ) : null
+
     return (
-        <section className="hero is-fullheight">
-            <div className="hero-body">
-                <section className="container section">
-                    {errorMessage && (
-                        <div className="notification is-warning">
-                            {errorMessage}
-                        </div>
-                    )}
-                    {successMessage && (
-                        <div className="notification is-success">
-                            {successMessage}
-                        </div>
-                    )}
-                    {!successMessage && !errorMessage && (
-                        <div className="box">
-                            <p>
-                                <strong>{title}</strong>
-                            </p>
-                            {url && (
-                                <a
-                                    href={url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                >
-                                    {url}
-                                </a>
-                            )}
-                        </div>
-                    )}
-                </section>
-                <div className="section container">
+        <>
+            <div className="section">
+                <div className="container">
+                    <div className="field">
+                        {errorMessage ? (
+                            <div className="notification is-warning">
+                                {errorMessage}
+                            </div>
+                        ) : successMessage ? (
+                            <div className="notification is-success">
+                                {successMessage}
+                            </div>
+                        ) : (
+                            <div className="box">
+                                {titleElement}
+                                {moreElement}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            <div className="section">
+                <div className="container">
                     <div className="field">
                         <label htmlFor="day-select" className="label">
-                            Day
+                            Select day:
                         </label>
                         <div className="select">
                             <select name="Day" id="day-select">
-                                <option value="">Today</option>
                                 <option value="">Tomorrow</option>
-                                <option value="">
-                                    Next {getDay(new Date())}
-                                </option>
-                                <option value="">
-                                    On {getDate(new Date())}
-                                    {getMonth(addMonths(new Date(), 1))}
-                                </option>
+                                <option value="">In two days</option>
+                                <option value="">In a week</option>
+                                <option value="">In a month</option>
+                                <option value="">In a year</option>
                             </select>
                         </div>
                     </div>
+
                     <div className="field">
                         <label htmlFor="time-input" className="label">
-                            Time
+                            Select time
                         </label>
                         <input
                             id="time-input"
@@ -84,36 +111,20 @@ export const NewEventPage: React.FC<NewEventPageProps> = ({ title, url }) => {
                             }}
                         />
                     </div>
-                    <div className="field">
-                        <div className="control">
-                            <button
-                                className="button is-info"
-                                onClick={async () => {
-                                    try {
-                                        await insertEvent(
-                                            title,
-                                            url || "",
-                                            new Date(),
-                                            // o.getStartTime(preferredHour, 14),
-                                        )
-                                        setSuccessMessage("Done!")
-                                        window.history.replaceState(
-                                            null,
-                                            "",
-                                            "/",
-                                        )
-                                        window.history.go()
-                                    } catch (e) {
-                                        setErrorMessage("Something went wrong")
-                                    }
-                                }}
-                            >
-                                Create
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </section>
+
+            <footer className="footer has-background-white">
+                <div className="container has-text-centered">
+                    <button
+                        className="button is-primary"
+                        disabled={!title}
+                        onClick={createEvent}
+                    >
+                        Save for later
+                    </button>
+                </div>
+            </footer>
+        </>
     )
 }

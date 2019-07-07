@@ -25,12 +25,32 @@ storiesOf("InstallPage", module)
         <InstallPage wasInstalled={true} installEvent={installEvent} />
     ))
 
-storiesOf("NewEventPage", module).add("example", () => (
-    <NewEventPage
-        title="How Regular Americans Can Help Reunite Migrant Families"
-        url="https://medium.com/new-york-times-opinion/how-regular-americans-can-help-reunite-migrant-families-bc72e1c155e5"
-    />
-))
+storiesOf("NewEventPage", module)
+    .add("perfect example", () => (
+        <NewEventPage
+            title="How Regular Americans Can Help Reunite Migrant Families"
+            more="https://medium.com/new-york-times-opinion/how-regular-americans-can-help-reunite-migrant-families-bc72e1c155e5"
+        />
+    ))
+    .add("non-url more", () => (
+        <NewEventPage
+            title="How Regular Americans Can Help Reunite Migrant Families"
+            more="(read more at Medium)"
+        />
+    ))
+    .add("title only", () => (
+        <NewEventPage
+            title="How Regular Americans Can Help Reunite Migrant Families"
+            more={null}
+        />
+    ))
+    .add("more only", () => (
+        <NewEventPage
+            title={null}
+            more="https://medium.com/new-york-times-opinion/how-regular-americans-can-help-reunite-migrant-families-bc72e1c155e5"
+        />
+    ))
+    .add("nothing", () => <NewEventPage title={null} more={null} />)
 
 storiesOf("SomethingWrongPage", module).add("empty content", () => (
     <SomethingWrongPage info={{ text: "", url: "", title: "" }} />
