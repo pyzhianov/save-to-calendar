@@ -1,5 +1,5 @@
 import React from "react"
-import { urlRegex } from "./utils"
+import { urlRegex, t } from "./utils"
 import {
     startOfTomorrow,
     addWeeks,
@@ -22,13 +22,43 @@ const HOURS = Array(24)
     .fill(0)
     .map((_, i) => i)
 
+const Text = {
+    TODAY: t({ en: "Today", ru: "Сегодня" }),
+    TOMORROW: t({ en: "Tomorrow", ru: "Завтра" }),
+    TWO: t({ en: "In two days", ru: "Через два дня" }),
+    WEEK: t({ en: "In a week", ru: "Через неделю" }),
+    MONTH: t({ en: "In a month", ru: "Через месяц" }),
+    YEAR: t({ en: "In a year", ru: "Через год" }),
+    SUCCESS: t({ en: "Saved to Calendar!", ru: "Добавлено в календарь!" }),
+    FAIL: t({
+        en: "Something went wrong :(",
+        ru: "Упс, что-то пошло не так :(",
+    }),
+    ENTER: t({
+        en: "Enter a title",
+        ru: "Добавьте заголовок",
+    }),
+    SELECT_DATE: t({
+        en: "Pick a day:",
+        ru: "Выберите день:",
+    }),
+    SELECT_TIME: t({
+        en: "Pick a time:",
+        ru: "Выберите время:",
+    }),
+    SAVE: t({
+        en: "Save",
+        ru: "Сохранить",
+    }),
+}
+
 const DATES = [
-    { text: "Today", value: () => startOfToday() },
-    { text: "Tomorrow", value: () => startOfTomorrow() },
-    { text: "In two days", value: () => addDays(startOfToday(), 2) },
-    { text: "In a week", value: () => addWeeks(startOfToday(), 1) },
-    { text: "In a month", value: () => addMonths(startOfToday(), 1) },
-    { text: "In a year", value: () => addYears(startOfToday(), 1) },
+    { text: Text.TODAY, value: () => startOfToday() },
+    { text: Text.TOMORROW, value: () => startOfTomorrow() },
+    { text: Text.TWO, value: () => addDays(startOfToday(), 2) },
+    { text: Text.WEEK, value: () => addWeeks(startOfToday(), 1) },
+    { text: Text.MONTH, value: () => addMonths(startOfToday(), 1) },
+    { text: Text.YEAR, value: () => addYears(startOfToday(), 1) },
 ]
 
 export function NewEventPage(props: NewEventPageProps) {
@@ -47,11 +77,11 @@ export function NewEventPage(props: NewEventPageProps) {
     const createEvent = () =>
         insertEvent(title, more, setHours(preferredDate, preferredHour))
             .then(() => {
-                setSuccessMessage("Saved to Calendar!")
+                setSuccessMessage(Text.SUCCESS)
                 window.history.replaceState(null, "", "/")
             })
             .catch(() => {
-                setErrorMessage("Something went wrong :(")
+                setErrorMessage(Text.FAIL)
             })
 
     const titleElement = props.title ? (
@@ -62,7 +92,7 @@ export function NewEventPage(props: NewEventPageProps) {
         <input
             className="input"
             value={userTitle}
-            placeholder="Enter the title"
+            placeholder={Text.ENTER}
             onChange={e => setTitle(e.target.value)}
         />
     )
@@ -103,7 +133,7 @@ export function NewEventPage(props: NewEventPageProps) {
                 <div className="container">
                     <div className="field">
                         <label htmlFor="day-select" className="label">
-                            Select day:
+                            {Text.SELECT_DATE}
                         </label>
                         <div className="select">
                             <select
@@ -127,7 +157,7 @@ export function NewEventPage(props: NewEventPageProps) {
 
                     <div className="field">
                         <label htmlFor="time-input" className="label">
-                            Select time
+                            {Text.SELECT_TIME}
                         </label>
                         <div className="select">
                             <select
@@ -156,7 +186,7 @@ export function NewEventPage(props: NewEventPageProps) {
                         disabled={!title}
                         onClick={createEvent}
                     >
-                        Save for later
+                        {Text.SAVE}
                     </button>
                 </div>
             </footer>

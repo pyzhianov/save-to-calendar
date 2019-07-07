@@ -1,5 +1,18 @@
 import React from "react"
 import { signIn } from "./gapi"
+import { t } from "./utils"
+
+const Text = {
+    CAUTION: t({
+        en: "(for adding events only)",
+        ru:
+            "(приложение ничего не читает и не удаляет, только создает новые события)",
+    }),
+    LOG_OUT: t({
+        en: "Log in with Google Calendar",
+        ru: "Войти через Google Calendar",
+    }),
+}
 
 export function LoginPage() {
     return (
@@ -11,14 +24,12 @@ export function LoginPage() {
                             className="button is-big is-primary"
                             onClick={signIn}
                         >
-                            Log in with Google Calendar
+                            {Text.LOG_OUT}
                         </button>
                     </div>
 
                     <div className="field">
-                        <p className="has-text-grey">
-                            (for adding events only)
-                        </p>
+                        <p className="has-text-grey">{Text.CAUTION}</p>
                     </div>
                 </div>
             </div>

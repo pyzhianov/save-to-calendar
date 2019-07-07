@@ -1,35 +1,45 @@
 import React from "react"
 import { signOut } from "./gapi"
+import { t } from "./utils"
+
+const Text = {
+    TIP: t({
+        en:
+            "Now open the <strong>Share</strong> dialog in any of your apps and select <strong>Save&nbsp;to&nbsp;Calendar</strong>.",
+        ru:
+            "Теперь вы можете выбрать <strong>Save&nbsp;to&nbsp;Calendar</strong> в меню <strong>Поделиться</strong>  любого приложения и добавить интересный материал в календарь.",
+    }),
+    LOG_OUT: t({
+        en: "Log out of Google Calendar",
+        ru: "Отключить Google Calendar",
+    }),
+}
 
 export function TipPage() {
-    const [isModalOpen, setModalOpen] = React.useState(false)
-    const openModal = React.useCallback(() => setModalOpen(true), [
-        setModalOpen,
-    ])
-    const closeModal = React.useCallback(() => setModalOpen(false), [
-        setModalOpen,
-    ])
+    // const [isModalOpen, setModalOpen] = React.useState(false)
+    // const openModal = React.useCallback(() => setModalOpen(true), [
+    //     setModalOpen,
+    // ])
+    // const closeModal = React.useCallback(() => setModalOpen(false), [
+    //     setModalOpen,
+    // ])
 
     return (
         <>
             <div className="hero is-fullheight">
                 <div className="hero-body container has-text-centered">
-                    <p>
-                        Now open the <strong>Share</strong> dialog in any of
-                        your apps and select{" "}
-                        <strong>Save&nbsp;to&nbsp;Calendar</strong>.
-                    </p>
+                    <p dangerouslySetInnerHTML={{ __html: Text.TIP }} />
                 </div>
                 <div className="hero-foot container">
                     <section className="section">
-                        <button className="button is-big" onClick={openModal}>
-                            Log out of Google Calendar
+                        <button className="button is-big" onClick={signOut}>
+                            {Text.LOG_OUT}
                         </button>
                     </section>
                 </div>
             </div>
 
-            <div className={`modal ${isModalOpen ? "is-active" : ""}`}>
+            {/* <div className={`modal ${isModalOpen ? "is-active" : ""}`}>
                 <div className="modal-background" />
                 <div className="modal-content">
                     <div className="card">
@@ -64,7 +74,7 @@ export function TipPage() {
                     aria-label="close"
                     onClick={closeModal}
                 />
-            </div>
+            </div> */}
         </>
     )
 }
