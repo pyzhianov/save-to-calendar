@@ -29,7 +29,10 @@ const Text = {
     WEEK: t({ en: "In a week", ru: "Через неделю" }),
     MONTH: t({ en: "In a month", ru: "Через месяц" }),
     YEAR: t({ en: "In a year", ru: "Через год" }),
-    SUCCESS: t({ en: "Saved to Calendar!", ru: "Добавлено в календарь!" }),
+    SUCCESS: t({
+        en: "Saved to Calendar! 🎉",
+        ru: "Добавлено в календарь! 🎉",
+    }),
     FAIL: t({
         en: "Something went wrong :(",
         ru: "Упс, что-то пошло не так :(",
@@ -77,8 +80,8 @@ export function NewEventPage(props: NewEventPageProps) {
     const createEvent = () =>
         insertEvent(title, more, setHours(preferredDate, preferredHour))
             .then(() => {
-                setSuccessMessage(Text.SUCCESS)
                 window.history.replaceState(null, "", "/")
+                setSuccessMessage(Text.SUCCESS)
             })
             .catch(() => {
                 setErrorMessage(Text.FAIL)
@@ -107,8 +110,8 @@ export function NewEventPage(props: NewEventPageProps) {
         ) : null
 
     return (
-        <>
-            <div className="section">
+        <div className="hero is-fullheight">
+            <div className="section" style={{ height: "30vh" }}>
                 <div className="container">
                     <div className="field">
                         {errorMessage ? (
@@ -116,20 +119,18 @@ export function NewEventPage(props: NewEventPageProps) {
                                 {errorMessage}
                             </div>
                         ) : successMessage ? (
-                            <div className="notification is-success">
-                                {successMessage}
-                            </div>
+                            <div className="notification">{successMessage}</div>
                         ) : (
                             <div className="box">
-                                {titleElement}
-                                {moreElement}
+                                <div className="field">{titleElement}</div>
+                                <div className="field">{moreElement}</div>
                             </div>
                         )}
                     </div>
                 </div>
             </div>
 
-            <div className="section">
+            <div className="hero-body">
                 <div className="container">
                     <div className="field">
                         <label htmlFor="day-select" className="label">
@@ -179,8 +180,8 @@ export function NewEventPage(props: NewEventPageProps) {
                 </div>
             </div>
 
-            <footer className="footer has-background-white">
-                <div className="container has-text-centered">
+            <footer className="hero-foot">
+                <div className="section container has-text-centered">
                     <button
                         className="button is-primary"
                         disabled={!title}
@@ -190,6 +191,6 @@ export function NewEventPage(props: NewEventPageProps) {
                     </button>
                 </div>
             </footer>
-        </>
+        </div>
     )
 }

@@ -14,17 +14,16 @@ export interface InstallEvent extends Event {
 }
 
 const Text = {
-    PROMO: (title: string) =>
-        t({
-            en: `This will install <strong>${title}</strong> a new and awesome way to save content for later.`,
-            ru: `Установить приложение <strong>${title}</strong>, которое сохраняет статьи "на потом" в ваш календарь.`,
-        }),
+    PROMO: t({
+        en: `This will install <strong>Save to Calendar</strong>, a new and awesome way to save content for later.`,
+        ru: `Установить приложение <strong>Save to Calendar</strong>, которое сохраняет статьи "на потом" в ваш календарь.`,
+    }),
     TITLE: t({
         en: "Save to Calendar",
         ru: "Save to Calendar",
     }),
     NOW: t({
-        en: "Now start using it!",
+        en: "Now try it out!",
         ru: "Получилось! 🎉",
     }),
     CHROME: t({
@@ -34,11 +33,11 @@ const Text = {
     CHROME_TIP: t({
         en:
             "(opening this site in Google Chrome might help if you are on Android)",
-        ru: "(еще можно попробовать открыть этот сайт в Google Chrome)",
+        ru: "(если вы на андроиде, попробуйте зайти через Google Chrome)",
     }),
     ALREADY: t({
         en:
-            "Looks like we don't support your device at the moment. Or maybe you already have <strong>Save to Calendar</strong> installed, check your apps menu.",
+            "Looks like we don't yet support your device. Or maybe you already have <strong>Save to Calendar</strong> installed, check your apps menu.",
         ru:
             "Кажется, мы пока не поддерживаем ваше устройство, 😭 но возможно, вы уже установили <strong>Save to Calendar</strong> - поищите среди других приложений. 🤷‍",
     }),
@@ -57,9 +56,7 @@ export function InstallPage({ wasInstalled, installEvent }: InstallPageProps) {
                         {wasInstalled && <p>{Text.NOW}</p>}
                         {!wasInstalled && installEvent && (
                             <p
-                                dangerouslySetInnerHTML={{
-                                    __html: Text.PROMO(Text.TITLE),
-                                }}
+                                dangerouslySetInnerHTML={{ __html: Text.PROMO }}
                             />
                         )}
                         {!wasInstalled && !installEvent && (
