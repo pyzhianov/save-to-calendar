@@ -30,8 +30,8 @@ const Text = {
     MONTH: t({ en: "In a month", ru: "Через месяц" }),
     YEAR: t({ en: "In a year", ru: "Через год" }),
     SUCCESS: t({
-        en: "Saved to Calendar! 🎉",
-        ru: "Добавлено в календарь! 🎉",
+        en: "Saved to Calendar!",
+        ru: "Добавлено в календарь!",
     }),
     FAIL: t({
         en: "Something went wrong :(",
@@ -87,6 +87,10 @@ export function NewEventPage(props: NewEventPageProps) {
                 setErrorMessage(Text.FAIL)
             })
 
+    React.useEffect(() => {
+        setTimeout(() => setSuccessMessage(""), 3000)
+    }, [successMessage])
+
     const titleElement = props.title ? (
         <p>
             <strong>{props.title}</strong>
@@ -119,7 +123,9 @@ export function NewEventPage(props: NewEventPageProps) {
                                 {errorMessage}
                             </div>
                         ) : successMessage ? (
-                            <div className="notification">{successMessage}</div>
+                            <div className="notification is-success">
+                                {successMessage}
+                            </div>
                         ) : (
                             <div className="box">
                                 <div className="field">{titleElement}</div>
