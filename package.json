@@ -2,6 +2,7 @@
     "name": "save-to-calendar",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://github.com/pyzhianov/save-to-calendar",
     "dependencies": {
         "bulma": "^0.7.5",
         "clsx": "^1.0.4",
@@ -15,12 +16,10 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
-        "deploy": "firebase deploy --project read-later-calendar",
-        "go": "yarn build && yarn deploy",
         "storybook": "start-storybook -p 9009 -s public",
-        "build-storybook": "build-storybook -s public",
-        "sb": "yarn storybook",
-        "eject": "react-scripts eject"
+        "predeploy": "yarn run build",
+        "deploy": "gh-pages -d build",
+        "sb": "yarn storybook"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -47,7 +46,7 @@
         "@types/react": "^16.8.22",
         "@types/react-dom": "^16.8.4",
         "@types/storybook__react": "^4.0.2",
-        "firebase-tools": "^7.0.1",
+        "gh-pages": "^2.1.1",
         "typescript": "^3.5.2"
     }
 }
