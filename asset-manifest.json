@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/pyzhianov/save-to-calendar/static/css/main.10646d40.chunk.css",
-    "main.js": "/pyzhianov/save-to-calendar/static/js/main.db115911.chunk.js",
-    "main.js.map": "/pyzhianov/save-to-calendar/static/js/main.db115911.chunk.js.map",
-    "runtime~main.js": "/pyzhianov/save-to-calendar/static/js/runtime~main.fb28a2e6.js",
-    "runtime~main.js.map": "/pyzhianov/save-to-calendar/static/js/runtime~main.fb28a2e6.js.map",
-    "static/css/2.1ef35742.chunk.css": "/pyzhianov/save-to-calendar/static/css/2.1ef35742.chunk.css",
-    "static/js/2.d76424d4.chunk.js": "/pyzhianov/save-to-calendar/static/js/2.d76424d4.chunk.js",
-    "static/js/2.d76424d4.chunk.js.map": "/pyzhianov/save-to-calendar/static/js/2.d76424d4.chunk.js.map",
-    "index.html": "/pyzhianov/save-to-calendar/index.html",
-    "precache-manifest.ad5530f5c5419b282d7d59a95c2daaa7.js": "/pyzhianov/save-to-calendar/precache-manifest.ad5530f5c5419b282d7d59a95c2daaa7.js",
-    "service-worker.js": "/pyzhianov/save-to-calendar/service-worker.js",
-    "static/css/2.1ef35742.chunk.css.map": "/pyzhianov/save-to-calendar/static/css/2.1ef35742.chunk.css.map",
-    "static/css/main.10646d40.chunk.css.map": "/pyzhianov/save-to-calendar/static/css/main.10646d40.chunk.css.map"
+    "main.css": "/save-to-calendar/static/css/main.10646d40.chunk.css",
+    "main.js": "/save-to-calendar/static/js/main.4912e52a.chunk.js",
+    "main.js.map": "/save-to-calendar/static/js/main.4912e52a.chunk.js.map",
+    "runtime~main.js": "/save-to-calendar/static/js/runtime~main.6b6887cb.js",
+    "runtime~main.js.map": "/save-to-calendar/static/js/runtime~main.6b6887cb.js.map",
+    "static/css/2.1ef35742.chunk.css": "/save-to-calendar/static/css/2.1ef35742.chunk.css",
+    "static/js/2.d76424d4.chunk.js": "/save-to-calendar/static/js/2.d76424d4.chunk.js",
+    "static/js/2.d76424d4.chunk.js.map": "/save-to-calendar/static/js/2.d76424d4.chunk.js.map",
+    "index.html": "/save-to-calendar/index.html",
+    "precache-manifest.fe790d28cb0522b976e2dcb05930cf9d.js": "/save-to-calendar/precache-manifest.fe790d28cb0522b976e2dcb05930cf9d.js",
+    "service-worker.js": "/save-to-calendar/service-worker.js",
+    "static/css/2.1ef35742.chunk.css.map": "/save-to-calendar/static/css/2.1ef35742.chunk.css.map",
+    "static/css/main.10646d40.chunk.css.map": "/save-to-calendar/static/css/main.10646d40.chunk.css.map"
   }
 }
