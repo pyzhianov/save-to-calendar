@@ -9,8 +9,8 @@ declare global {
 }
 
 const CLIENT_ID =
-    "937378615319-bd1gsu5ltfh92kk7lbc9pej2pn3o44dd.apps.googleusercontent.com"
-const API_KEY = "AIzaSyDVbDOW8bCQcfTnpSdsWZ6XFxn2qg0rgP0"
+    "937378615319-ismhml4chkkd9let2k6su6o40ip43lor.apps.googleusercontent.com"
+const API_KEY = "AIzaSyAAoo9d_gRLhkrbqzdstpsGQ7W93namgeI"
 const SCOPES = "https://www.googleapis.com/auth/calendar.events"
 const DISCOVERY_DOCS = [
     "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
