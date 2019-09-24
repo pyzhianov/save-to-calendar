@@ -2,7 +2,7 @@
     "name": "save-to-calendar",
     "version": "0.1.0",
     "private": true,
-    "homepage": "https://github.com/pyzhianov/save-to-calendar",
+    "homepage": "https://pyzhianov.github.io/save-to-calendar/",
     "dependencies": {
         "bulma": "^0.7.5",
         "clsx": "^1.0.4",
