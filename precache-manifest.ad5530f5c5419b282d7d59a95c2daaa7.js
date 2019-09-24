@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "d027aa56c3667f25dafdb53f793142f2",
+    "revision": "863c9276ba1f625476b9abc5c7e20cb2",
     "url": "/pyzhianov/save-to-calendar/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pyzhianov/save-to-calendar/static/css/2.1ef35742.chunk.css"
   },
   {
-    "revision": "a4bf8e527f2e3ec5cbd6",
+    "revision": "284fa09747991c0f74c4",
     "url": "/pyzhianov/save-to-calendar/static/css/main.10646d40.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pyzhianov/save-to-calendar/static/js/2.d76424d4.chunk.js"
   },
   {
-    "revision": "a4bf8e527f2e3ec5cbd6",
-    "url": "/pyzhianov/save-to-calendar/static/js/main.a3e792b9.chunk.js"
+    "revision": "284fa09747991c0f74c4",
+    "url": "/pyzhianov/save-to-calendar/static/js/main.db115911.chunk.js"
   },
   {
     "revision": "e0f26f1a0673b9f5a816",

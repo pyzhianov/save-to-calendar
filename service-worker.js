@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/pyzhianov/save-to-calendar/precache-manifest.d71bdad64a0649d78883eafdeed22a5b.js"
+  "/pyzhianov/save-to-calendar/precache-manifest.ad5530f5c5419b282d7d59a95c2daaa7.js"
 );
 
 self.addEventListener('message', (event) => {
