@@ -46,7 +46,7 @@
         "@types/react": "^16.8.22",
         "@types/react-dom": "^16.8.4",
         "@types/storybook__react": "^4.0.2",
-        "gh-pages": "^2.1.1",
+        "gh-pages": "^5.0.0",
         "typescript": "^3.5.2"
     }
 }
